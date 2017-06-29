@@ -100,7 +100,7 @@ module.exports.cronComplete = function() {
   var cutoff = new Date();
   var buffer = 0.5; // Buffer, in number of days
   cutoff.setTime(cutoff.getTime() - buffer * 86400000);
-  Challenge.find({ expired: false, expires: { $lt: cutoff }})
+  Challenge.find({ expired: false, expires: { $lt: cutoff }, status: {$ne: 'complete'} })
   .then(function(result){
     console.log(result.length, 'expired challenges were found');
 
@@ -285,8 +285,10 @@ function saveSegmentToChallenge(challengeId, segmentId) {
 
 function updateChallengeResult(challenge) {
   var completeDate = new Date();
+  console.log('updating challenge');
   Challenge.find({_id: challenge._id}, function(err, res){
     if (res.length) {
+      console.log('found challenge to update');
       var challenge = res[0];
       // If challengee is the only user who completed challenge
       if (challenge.challengeeCompleted) {
