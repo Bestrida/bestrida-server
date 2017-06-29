@@ -131,7 +131,6 @@ function getSegmentsFromStrava(userId, token, callback) {
   console.log('getting segments for: ' + userId);
   console.log('user token: ' + token);
   strava.athlete.listActivities({ access_token: token, page: 1, per_page: 200 }, function (err, activities) {
-    console.log('activities: ', activities);
     if (err) {
       console.error('Error retrieving activities' + err);
       callback('Error retrieving activities' + err);
